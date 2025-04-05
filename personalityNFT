@@ -7,37 +7,16 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v4.9
 contract PersonalityNFT is ERC721URIStorage, Ownable {
     uint256 public totalSupply;
 
-    struct NFTMetadata {
-        string name;
-        string description;
-        string image;
-    }
-
-    mapping(uint256 => NFTMetadata) private _tokenMetadata;
-
     constructor() ERC721("PersonalityNFT", "PNFT") {
         totalSupply = 0;
     }
 
-    function mintNFT(address recipient, string memory name, string memory description, string memory imageURI) public onlyOwner returns (uint256) {
+    function mintNFT(address recipient, string memory metadataURI) public onlyOwner returns (uint256) {
         uint256 newTokenId = totalSupply;
         _mint(recipient, newTokenId);
-        _setTokenURI(newTokenId, imageURI);
-
-        _tokenMetadata[newTokenId] = NFTMetadata({
-            name: name,
-            description: description,
-            image: imageURI
-        });
-
+        _setTokenURI(newTokenId, metadataURI);
         totalSupply += 1;
         return newTokenId;
-    }
-
-    function getMetadata(uint256 tokenId) public view returns (string memory, string memory, string memory) {
-        require(_exists(tokenId), "Token does not exist");
-        NFTMetadata memory metadata = _tokenMetadata[tokenId];
-        return (metadata.name, metadata.description, metadata.image);
     }
 
     function getTokenIds(address owner) public view returns (uint256[] memory) {
@@ -45,7 +24,7 @@ contract PersonalityNFT is ERC721URIStorage, Ownable {
         uint256[] memory ids = new uint256[](balance);
         uint256 count = 0;
         for (uint256 i = 0; i < totalSupply; i++) {
-            if (ownerOf(i) == owner) {
+            if (_exists(i) && ownerOf(i) == owner) {
                 ids[count] = i;
                 count++;
             }
