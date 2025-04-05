@@ -27,31 +27,45 @@ function DISCTest({ onComplete }) {
   };
 
   const handleSubmit = () => {
+    // Initialize scores for each dimension
     const result = { D: 0, I: 0, S: 0, C: 0 };
     
-    // 計算每個維度的總分
+    // Calculate the total score for each dimension
     Object.entries(answers).forEach(([key, value]) => {
       const [dim] = key.split("-");
       result[dim] += value;
     });
     
-    // 找出主導類型
+    // Find the dominant type
     let dominantType = 'balanced';
     let maxScore = 0;
+    let secondMaxScore = 0;
     
+    // First find the maximum score
     for (const [type, score] of Object.entries(result)) {
       if (score > maxScore) {
+        secondMaxScore = maxScore;
         maxScore = score;
         dominantType = type;
+      } else if (score > secondMaxScore) {
+        secondMaxScore = score;
       }
     }
     
-    // 完成測驗回調
+    // If the difference between the top two scores is very small,
+    // consider it a balanced profile (less than 15% difference)
+    const threshold = maxScore * 0.15;
+    if (maxScore - secondMaxScore < threshold && maxScore > 0) {
+      dominantType = 'balanced';
+    }
+    
+    // Pass results to parent component
     onComplete(result, dominantType);
   };
   
-  // 檢查測驗是否完成
-  const isTestCompleted = Object.keys(answers).length === 20; // 總共20個問題
+  // Check if the test is completed (all 20 questions answered)
+  const totalQuestions = Object.values(questions).reduce((sum, arr) => sum + arr.length, 0);
+  const isTestCompleted = Object.keys(answers).length === totalQuestions;
 
   return (
     <div className="disc-test">
@@ -92,7 +106,7 @@ function DISCTest({ onComplete }) {
             : "bg-gray-300 cursor-not-allowed"
         }`}
       >
-        {isTestCompleted ? "See Results" : "Please Answer All Questions"}
+        {isTestCompleted ? "See Results" : `Please Answer All Questions (${Object.keys(answers).length}/${totalQuestions})`}
       </button>
     </div>
   );
