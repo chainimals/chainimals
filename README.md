@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# Chainimals LotterFi
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+Chainimals LotterFi is a unique Web3 project that combines psychological profiling with NFT collection and lottery gaming. Users connect their wallet, complete a DISC psychometric assessment, and receive a personalized animal-themed NFT that reflects their psychological profile.
 
-## Available Scripts
+## Key Features
 
-In the project directory, you can run:
+### DISC Personality Assessment
+- Complete a comprehensive DISC psychometric questionnaire
+- Gain valuable insights about your personality type and behavioral tendencies
+- Receive personalized results to better understand yourself
 
-### `npm start`
+### Chainimal NFTs
+- Receive a unique animal-themed NFT based on your DISC assessment results
+- Dynamic NFT capabilities that may evolve over time
+- Your NFT serves as an access pass to the LotterFi ecosystem
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### LotterFi Lottery System
+- Use your Chainimal NFT to access different lottery games
+- Games tailored to different risk appetites based on personality profiles
+- Low-cost entry with exciting rewards
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### DeFi Integration
+- Winners can stake their rewards to leverage their assets
+- Multiple earning opportunities within the ecosystem
+- Sustainable tokenomics design
 
-### `npm test`
+## Roadmap
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Phase 1**: Launch DISC assessment and initial NFT distribution
+- **Phase 2**: Implement lottery system with varying risk levels
+- **Phase 3**: Deploy DeFi staking mechanisms for lottery winners
+- **Phase 4**: Explore GameFi and Metaverse collaborations
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Connect your Web3 wallet
+2. Complete the DISC psychometric questionnaire
+3. Receive your unique Chainimal NFT
+4. Join lottery games tailored to your personality profile
+5. Stake winnings for additional rewards
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Technical Architecture
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The project combines smart contracts on Ethereum with a user-friendly frontend interface to deliver a seamless experience from personality assessment to NFT minting and lottery participation.
