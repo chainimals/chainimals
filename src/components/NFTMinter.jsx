@@ -1,15 +1,27 @@
+// src/components/NFTMinter.jsx
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
-import { contractAddress, contractABI, IPFS_MAP } from '../config';
+import { contractAddress, contractABI } from '../config';
 
-function NFTMinter({ dominantType, signer }) {
+function NFTMinter({ dominantType, signer, walletAddress }) {
   const [status, setStatus] = useState('ready'); // 'ready', 'minting', 'success', 'error'
   const [txHash, setTxHash] = useState('');
   const [customCID, setCustomCID] = useState('');
   const [useCustomCID, setUseCustomCID] = useState(false);
   
-  // 獲取對應的 IPFS CID
-  const defaultCID = IPFS_MAP[dominantType] || IPFS_MAP['balanced'];
+  // 根據類型獲取IPFS CID
+  const getIPFSForType = (type) => {
+    const IPFS_MAP = {
+      'D': 'ipfs://bafkreigk5mgiax3o43clpgnhmo6pn2i5kkmgxpzfdyan7tix42fvl4xbdu',
+      'I': 'ipfs://bafkreifuzy3mfhqjfyh4xnfe72zjy2j5jpm5qi3nbd47kelf3zsxu7zm6y',
+      'S': 'ipfs://bafkreibm2fcx7i3ynwlfzqwouuwtjrj2ky6ygjj7g2yoeu56giibp2pqd4',
+      'C': 'ipfs://bafkreihrk7rrdnbkm5qzwugdu3dhdgmjsczp5ntfv4dwasqfskctinma4y',
+      'balanced': 'ipfs://bafkreihiukzfykagy6uhjrqukedkp6tidr52qsea5vtqfdxpbotx3dfuba'
+    };
+    return IPFS_MAP[type] || IPFS_MAP['balanced'];
+  };
+  
+  const defaultCID = getIPFSForType(dominantType);
   
   async function mintNFT() {
     if (!signer) {
@@ -32,9 +44,14 @@ function NFTMinter({ dominantType, signer }) {
         signer
       );
       
-      // 調用合約的鑄造方法
-      const transaction = await contract.mintNFT(cidToUse);
+      console.log("Minting NFT to:", walletAddress);
+      console.log("With URI:", cidToUse);
+      
+      // 傳入兩個參數：接收者地址和 URI
+      const transaction = await contract.mintNFT(walletAddress, cidToUse);
+      
       setTxHash(transaction.hash);
+      console.log("Transaction hash:", transaction.hash);
       
       // 等待交易確認
       await transaction.wait();
