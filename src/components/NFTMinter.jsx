@@ -2,21 +2,20 @@
 import React, { useState } from 'react';
 import { ethers } from 'ethers';
 import { contractAddress, contractABI } from '../config';
+import '../styles/NFTMinter.css'; // 新增引入 CSS 文件
 
 function NFTMinter({ dominantType, signer, walletAddress }) {
   const [status, setStatus] = useState('ready'); // 'ready', 'minting', 'success', 'error'
   const [txHash, setTxHash] = useState('');
-  const [customCID, setCustomCID] = useState('');
-  const [useCustomCID, setUseCustomCID] = useState(false);
   
   // 根據類型獲取IPFS CID
   const getIPFSForType = (type) => {
     const IPFS_MAP = {
-      'D': 'ipfs://bafkreigk5mgiax3o43clpgnhmo6pn2i5kkmgxpzfdyan7tix42fvl4xbdu',
-      'I': 'ipfs://bafkreifuzy3mfhqjfyh4xnfe72zjy2j5jpm5qi3nbd47kelf3zsxu7zm6y',
-      'S': 'ipfs://bafkreibm2fcx7i3ynwlfzqwouuwtjrj2ky6ygjj7g2yoeu56giibp2pqd4',
-      'C': 'ipfs://bafkreihrk7rrdnbkm5qzwugdu3dhdgmjsczp5ntfv4dwasqfskctinma4y',
-      'balanced': 'ipfs://bafkreihiukzfykagy6uhjrqukedkp6tidr52qsea5vtqfdxpbotx3dfuba'
+      'D': 'ipfs://bafkreifqhmkydwlg6ff4ffoyos5iijbfgpkcxtuxx2klxmhwze2oe5jqpq',
+      'I': 'ipfs://bafkreif2k3egxppjf4y44kvldwtq3htjqafcktkviremsem6lksxwliphi',
+      'S': 'ipfs://bafkreifrnaysoffv2ukenuslwxq6a2lqhujlddk5wi6hyrt2jise4aevhi',
+      'C': 'ipfs://bafkreihhz24agztfm75ovxgmpvqcftp7n43qvdyvy4bt5di2hdzvjtapga',
+      'balanced': 'ipfs://bafkreigaxdczvo6lyoh7hiwvlxlevzaqejq6lx3daj35oaeg5i4fj6lcee'
     };
     return IPFS_MAP[type] || IPFS_MAP['balanced'];
   };
@@ -26,12 +25,6 @@ function NFTMinter({ dominantType, signer, walletAddress }) {
   async function mintNFT() {
     if (!signer) {
       alert("Please connect your wallet first");
-      return;
-    }
-    
-    const cidToUse = useCustomCID ? customCID : defaultCID;
-    if (!cidToUse) {
-      alert("Invalid IPFS CID");
       return;
     }
     
@@ -45,10 +38,10 @@ function NFTMinter({ dominantType, signer, walletAddress }) {
       );
       
       console.log("Minting NFT to:", walletAddress);
-      console.log("With URI:", cidToUse);
+      console.log("With URI:", defaultCID);
       
       // 傳入兩個參數：接收者地址和 URI
-      const transaction = await contract.mintNFT(walletAddress, cidToUse);
+      const transaction = await contract.mintNFT(walletAddress, defaultCID);
       
       setTxHash(transaction.hash);
       console.log("Transaction hash:", transaction.hash);
@@ -65,62 +58,39 @@ function NFTMinter({ dominantType, signer, walletAddress }) {
   
   return (
     <div className="nft-minter mt-6 p-4 border rounded bg-gray-50">
-      <h3 className="text-xl font-semibold">Mint Your DISC NFT</h3>
+      <h3 className="text-xl font-semibold mb-4">Mint Your DISC NFT</h3>
       
-      <div className="mt-4">
-        <div className="flex items-center mb-2">
-          <input
-            type="checkbox"
-            id="useCustomCID"
-            checked={useCustomCID}
-            onChange={(e) => setUseCustomCID(e.target.checked)}
-            className="mr-2"
-          />
-          <label htmlFor="useCustomCID">Use custom IPFS CID</label>
+      <div className="status-indicator mb-4">
+        <div className="flex items-center">
+          <div className={`status-dot ${status}`}></div>
+          <span className="ml-2 text-sm font-medium">
+            {status === 'ready' ? 'Ready to mint' :
+             status === 'minting' ? 'Transaction in progress' :
+             status === 'success' ? 'Minting completed successfully' :
+             'Minting failed - please try again'}
+          </span>
         </div>
-        
-        {useCustomCID ? (
-          <input
-            type="text"
-            value={customCID}
-            onChange={(e) => setCustomCID(e.target.value)}
-            placeholder="Enter IPFS CID"
-            className="w-full p-2 border rounded"
-          />
-        ) : (
-          <div className="p-2 bg-white border rounded">
-            <p className="font-mono">{defaultCID}</p>
-            <p className="text-sm text-gray-600 mt-1">
-              Default IPFS CID for your {dominantType} type
-            </p>
-          </div>
-        )}
       </div>
       
       <button
         onClick={mintNFT}
         disabled={status === 'minting'}
-        className={`mt-4 px-4 py-2 rounded ${
-          status === 'ready' ? 'bg-purple-600 hover:bg-purple-700' :
-          status === 'minting' ? 'bg-gray-400 cursor-not-allowed' :
-          status === 'success' ? 'bg-green-600' :
-          'bg-red-600 hover:bg-red-700'
-        } text-white`}
+        className={`mint-button ${status}`}
       >
         {status === 'ready' ? 'Mint NFT' :
          status === 'minting' ? 'Minting...' :
          status === 'success' ? 'Minted Successfully!' :
-         'Minting Failed - Try Again'}
+         'Try Again'}
       </button>
       
       {txHash && (
-        <div className="mt-4">
-          <p className="text-sm">Transaction Hash:</p>
+        <div className="mt-4 p-3 bg-gray-100 rounded-lg border border-gray-200">
+          <p className="text-sm font-medium text-gray-700">Transaction Hash:</p>
           <a
             href={`https://evm-testnet.flowscan.io/tx/${txHash}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 break-all font-mono text-sm"
+            className="text-blue-600 hover:text-blue-800 break-all font-mono text-sm mt-1 inline-block"
           >
             {txHash}
           </a>

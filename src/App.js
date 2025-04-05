@@ -3,6 +3,7 @@ import './App.css';
 import DISCTest from './components/DISCTest';
 import WalletConnect from './components/WalletConnect';
 import NFTMinter from './components/NFTMinter';
+import './styles/buttons.css';
 
 // 引入所有DISC類型圖片
 import discDImage from './assets/images/disc-d.jpg';
@@ -62,7 +63,7 @@ function App() {
   };
   
   return (
-    <div className="App p-6 max-w-3xl mx-auto">
+    <div className="App p-6 mx-auto" style={{ maxWidth: "1200px" }}>
       <header className="mb-8 text-center">
         <h1 className="text-3xl font-bold">DISC NFT Minter</h1>
         <p className="text-gray-600">Take the DISC test and mint your personality as an NFT</p>
@@ -74,116 +75,230 @@ function App() {
       
       {currentStep === 'result' && (
         <div className="test-results">
-          <h2 className="text-2xl font-bold">Your DISC Results</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">Your DISC Results</h2>
           
-          <div className="bg-white shadow rounded-lg p-4 mt-4">
-            {/* 動物圖片顯示在這裡 */}
-            <div className="flex justify-center mb-4">
+          {/* 使用直接的內聯樣式來確保左右排列 */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
+            gap: '1.5rem',
+            marginBottom: '2rem'
+          }}>
+            {/* 左側：動物圖片 */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
+            }}>
               <img 
                 src={getPersonalityImage(dominantType)} 
                 alt={`${dominantType} personality type`} 
-                className="w-32 h-32 object-contain"
+                style={{
+                  maxWidth: '100%',
+                  height: 'auto',
+                  maxHeight: '450px',
+                  objectFit: 'contain',
+                  borderRadius: '0.5rem',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                }}
               />
             </div>
             
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-lg">Your dominant type: <strong className="text-xl">{dominantType}</strong></p>
-              <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-md font-medium">
-                {dominantType === 'D' ? 'Dominant' : 
-                 dominantType === 'I' ? 'Influence' :
-                 dominantType === 'S' ? 'Steadiness' :
-                 dominantType === 'C' ? 'Conscientiousness' : 'Balanced'}
-              </div>
-            </div>
-            
-            <p className="text-gray-700">{getPersonalityDescription(dominantType)}</p>
-            
-            <div className="mt-4">
-              <h3 className="text-md font-semibold text-gray-700">Score Distribution:</h3>
-              <div className="mt-2">
-                {Object.entries(testResults).map(([type, score]) => {
-                  // Calculate percentage (assuming max score of 25 per type)
-                  const percentage = (score / 25) * 100;
-                  return (
-                    <div key={type} className="mb-2">
-                      <div className="flex items-center">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center mr-2 ${
-                          type === dominantType ? 'bg-blue-500 text-white' : 'bg-gray-200'
-                        }`}>
-                          {type}
-                        </div>
-                        <div className="flex-1">
-                          <div className="flex justify-between mb-1">
-                            <span className="text-sm font-medium">
-                              {type === 'D' ? 'Dominant' : 
-                               type === 'I' ? 'Influence' :
-                               type === 'S' ? 'Steadiness' : 'Conscientiousness'}
-                            </span>
-                            <span className="text-sm font-medium">{score}/25</span>
+            {/* 右側：結果與描述 */}
+            <div>
+              <div style={{
+                backgroundColor: 'white',
+                padding: '1.5rem',
+                borderRadius: '0.5rem',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  marginBottom: '0.75rem'
+                }}>
+                  <p className="text-lg">Your dominant type: <strong className="text-xl">{dominantType}</strong></p>
+                  <div style={{
+                    backgroundColor: '#dbeafe',
+                    color: '#1e40af',
+                    padding: '0.25rem 0.75rem',
+                    borderRadius: '0.375rem',
+                    fontWeight: 500
+                  }}>
+                    {dominantType === 'D' ? 'Dominant' : 
+                     dominantType === 'I' ? 'Influence' :
+                     dominantType === 'S' ? 'Steadiness' :
+                     dominantType === 'C' ? 'Conscientiousness' : 'Balanced'}
+                  </div>
+                </div>
+                
+                <p style={{
+                  color: '#374151',
+                  marginBottom: '1rem',
+                  fontSize: '1.125rem'
+                }}>
+                  {getPersonalityDescription(dominantType)}
+                </p>
+                
+                <div style={{ marginTop: '1.5rem' }}>
+                  <h3 style={{
+                    fontSize: '0.875rem',
+                    fontWeight: 600,
+                    color: '#4b5563',
+                    marginBottom: '0.75rem'
+                  }}>
+                    Score Distribution:
+                  </h3>
+                  <div>
+                    {Object.entries(testResults).map(([type, score]) => {
+                      // Calculate percentage
+                      const percentage = (score / 25) * 100;
+                      return (
+                        <div key={type} style={{ marginBottom: '0.75rem' }}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div style={{
+                              width: '2rem',
+                              height: '2rem',
+                              borderRadius: '9999px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              marginRight: '0.75rem',
+                              backgroundColor: type === dominantType ? '#3b82f6' : '#e5e7eb',
+                              color: type === dominantType ? 'white' : 'black'
+                            }}>
+                              {type}
+                            </div>
+                            <div style={{ flex: 1 }}>
+                              <div style={{ 
+                                display: 'flex', 
+                                justifyContent: 'space-between',
+                                marginBottom: '0.25rem'
+                              }}>
+                                <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>
+                                  {type === 'D' ? 'Dominant' : 
+                                   type === 'I' ? 'Influence' :
+                                   type === 'S' ? 'Steadiness' : 'Conscientiousness'}
+                                </span>
+                                <span style={{ fontSize: '0.875rem', fontWeight: 500 }}>{score}/25</span>
+                              </div>
+                              <div style={{ 
+                                width: '100%', 
+                                backgroundColor: '#e5e7eb',
+                                borderRadius: '9999px',
+                                height: '0.625rem'
+                              }}>
+                                <div 
+                                  style={{
+                                    height: '0.625rem',
+                                    borderRadius: '9999px',
+                                    backgroundColor: type === dominantType ? '#3b82f6' : '#9ca3af',
+                                    width: `${percentage}%`
+                                  }}
+                                ></div>
+                              </div>
+                            </div>
                           </div>
-                          <div className="w-full bg-gray-200 rounded-full h-2">
-                            <div 
-                              className={`h-2 rounded-full ${
-                                type === dominantType ? 'bg-blue-500' : 'bg-gray-400'
-                              }`}
-                              style={{ width: `${percentage}%` }}
-                            ></div>
-                          </div>
                         </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                      );
+                    })}
+                  </div>
+                </div>
+                
+                <div style={{ marginTop: '1.5rem' }}>
+                  <h3 style={{ 
+                    fontSize: '1.125rem', 
+                    fontWeight: 600,
+                    marginBottom: '0.75rem'
+                  }}>
+                    Want to mint this as an NFT?
+                  </h3>
+                  <WalletConnect onConnect={handleConnectWallet} />
+                </div>
               </div>
             </div>
           </div>
           
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold">Want to mint this as an NFT?</h3>
-            <div className="mt-2">
-              <WalletConnect onConnect={handleConnectWallet} />
-            </div>
+          {/* Retake按鈕單獨放在下方居中 */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
+            <button 
+              onClick={() => setCurrentStep('test')}
+              className="retake-button"
+            >
+              Retake Test
+            </button>
           </div>
-          
-          <button 
-            onClick={() => setCurrentStep('test')}
-            className="mt-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-          >
-            Retake Test
-          </button>
         </div>
       )}
       
       {currentStep === 'mint' && (
         <div>
-          <h2 className="text-2xl font-bold">Mint Your DISC NFT</h2>
+          <h2 className="text-2xl font-bold mb-6 text-center">Mint Your DISC NFT</h2>
           
-          {/* 在Mint頁面也顯示動物圖片 */}
-          <div className="flex justify-center my-4">
-            <img 
-              src={getPersonalityImage(dominantType)} 
-              alt={`${dominantType} personality type`} 
-              className="w-24 h-24 object-contain"
-            />
+          {/* 使用直接的內聯樣式來確保左右排列 */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: window.innerWidth >= 768 ? '1fr 1fr' : '1fr',
+            gap: '1.5rem',
+            marginBottom: '2rem'
+          }}>
+            {/* 左側：動物圖片 */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'flex-start'
+            }}>
+              <img 
+                src={getPersonalityImage(dominantType)} 
+                alt={`${dominantType} personality type`} 
+                style={{
+                  maxWidth: '100%',
+                  height: 'auto',
+                  maxHeight: '450px',
+                  objectFit: 'contain',
+                  borderRadius: '0.5rem',
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+            </div>
+            
+            {/* 右側：NFT鑄造信息 */}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{
+                padding: '1.25rem',
+                backgroundColor: '#dbeafe',
+                border: '1px solid #bfdbfe',
+                borderRadius: '0.5rem',
+                marginBottom: '1rem'
+              }}>
+                <p style={{ fontWeight: 500, fontSize: '1.125rem', marginBottom: '0.5rem' }}>
+                  Your dominant type: <strong>{dominantType}</strong>
+                </p>
+                <p style={{ color: '#374151' }}>{getPersonalityDescription(dominantType)}</p>
+              </div>
+              
+              <div style={{
+                padding: '1rem',
+                backgroundColor: '#dcfce7',
+                border: '1px solid #bbf7d0',
+                borderRadius: '0.5rem',
+                marginBottom: '1rem'
+              }}>
+                <p style={{ color: '#166534' }}>
+                  Connected wallet: {walletAddress.substring(0, 6)}...{walletAddress.substring(38)}
+                </p>
+              </div>
+              
+              <NFTMinter dominantType={dominantType} signer={signer} walletAddress={walletAddress} />
+            </div>
           </div>
           
-          <div className="mt-4 p-3 bg-blue-100 border border-blue-300 rounded">
-            <p className="font-medium">Your dominant type: <strong>{dominantType}</strong></p>
-            <p className="mt-1">{getPersonalityDescription(dominantType)}</p>
-          </div>
-          
-          <div className="mt-2 p-3 bg-green-100 border border-green-300 rounded">
-            <p className="text-green-800">
-              Connected wallet: {walletAddress.substring(0, 6)}...{walletAddress.substring(38)}
-            </p>
-          </div>
-          
-          <NFTMinter dominantType={dominantType} signer={signer} walletAddress={walletAddress} />
-          
-          <div className="mt-6">
+          {/* Retake按鈕單獨放在下方居中 */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '2rem' }}>
             <button 
               onClick={() => setCurrentStep('test')}
-              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+              className="retake-button"
             >
               Retake Test
             </button>

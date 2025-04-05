@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Web3Modal from 'web3modal';
 import { ethers } from 'ethers';
 import { networkConfig } from '../config';
+import '../styles/WalletConnect.css'; // 引入 CSS 文件
 
 function WalletConnect({ onConnect }) {
   const [connecting, setConnecting] = useState(false);
@@ -62,19 +63,17 @@ function WalletConnect({ onConnect }) {
   }
   
   return (
-    <div>
+    <div className="wallet-connect-container">
       <button 
         onClick={connectWallet}
         disabled={connecting}
-        className={`px-4 py-2 rounded ${
-          connecting ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
-        } text-white`}
+        className={`connect-wallet-button ${connecting ? "connecting" : ""}`}
       >
         {connecting ? "Connecting..." : "Connect Wallet"}
       </button>
       
       {error && (
-        <p className="text-red-500 mt-2">{error}</p>
+        <p className="connect-error-message">{error}</p>
       )}
     </div>
   );
