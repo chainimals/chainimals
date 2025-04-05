@@ -103,7 +103,7 @@ function App() {
             </p>
           </div>
           
-          <NFTMinter dominantType={dominantType} signer={signer} />
+          <NFTMinter dominantType={dominantType} signer={signer} walletAddress={walletAddress} />
           
           <div className="mt-6">
             <button 
