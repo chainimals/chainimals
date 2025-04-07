@@ -1,6 +1,9 @@
 # Chainimals LotterFi
 
 ## Overview
+
+![Chainimals](src/assets/images/chainimals.jpg)
+
 Chainimals LotterFi is a unique Web3 project that combines psychological profiling with NFT collection and lottery gaming. Users connect their wallet, complete a DISC psychometric assessment, and receive a personalized animal-themed NFT that reflects their psychological profile.
 
 ## Key Features
