@@ -1,0 +1,15 @@
+{
+    "name": "First Flow EVM NFT",
+    "description": "This is my first NFT on Flow EVM",
+    "image": "https://picsum.photos/500",
+    "attributes": [
+      {
+        "trait_type": "Rarity",
+        "value": "Common"
+      },
+      {
+        "trait_type": "Type",
+        "value": "Demo"
+      }
+    ]
+  }
