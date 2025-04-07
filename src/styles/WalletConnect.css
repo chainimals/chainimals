@@ -1,0 +1,74 @@
+/* WalletConnect.css */
+
+.wallet-connect-container {
+    margin-bottom: 1rem;
+  }
+  
+  .connect-wallet-button {
+    display: inline-block;
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to right, #4f46e5, #4338ca);
+    color: white;
+    border: none;
+    min-width: 160px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .connect-wallet-button:hover {
+    background: linear-gradient(to right, #4338ca, #3730a3);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+  }
+  
+  .connect-wallet-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4);
+  }
+  
+  .connect-wallet-button.connecting {
+    background: #e5e7eb;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+    cursor: not-allowed;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .connect-wallet-button.connecting::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmer 1.5s infinite;
+  }
+  
+  @keyframes shimmer {
+    100% {
+      left: 100%;
+    }
+  }
+  
+  .connect-error-message {
+    margin-top: 0.5rem;
+    color: #ef4444;
+    font-size: 0.875rem;
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
